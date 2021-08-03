@@ -1,0 +1,2 @@
+;;; Generated package description from /home/zy/.emacs.d/elpa/visible-mark-20150624.450/visible-mark.el  -*- no-byte-compile: t -*-
+(define-package "visible-mark" "20150624.450" "Make marks visible." 'nil :commit "a584db9bc88953b23a9648b3e14ade90767207f8" :authors '(("Ian Kelling" . "ian@iankelling.org")) :maintainer '("Ian Kelling" . "ian@iankelling.org") :keywords '("marking" "color" "faces") :url "https://gitlab.com/iankelling/visible-mark")
