@@ -1,0 +1,2 @@
+;;; Generated package description from /Users/zy/.emacs.d/elpa/apheleia-20211003.1818/apheleia.el  -*- no-byte-compile: t -*-
+(define-package "apheleia" "20211003.1818" "Reformat buffer stably" '((emacs "25.2")) :stars '("") :commit "8b9d576f2fda10d0c9051fc03c1eb1d9791e32fd" :authors '(("Radon Rosborough" . "radon.neon@gmail.com")) :maintainer '("Radon Rosborough" . "radon.neon@gmail.com") :keywords '("tools") :url "https://github.com/raxod502/apheleia")
