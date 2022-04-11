@@ -1,0 +1,2 @@
+;;; Generated package description from apheleia.el  -*- no-byte-compile: t -*-
+(define-package "apheleia" "20220410.2121" "Reformat buffer stably" '((emacs "26")) :stars '("") :commit "806210414b84549f1c19d2df94a4a0491a581f2f" :authors '(("Radon Rosborough" . "radon.neon@gmail.com")) :maintainer '("Radon Rosborough" . "radon.neon@gmail.com") :keywords '("tools") :url "https://github.com/raxod502/apheleia")
