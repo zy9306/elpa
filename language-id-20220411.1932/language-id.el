@@ -2,8 +2,8 @@
 
 ;; Author: Lassi Kortela <lassi@lassi.io>
 ;; URL: https://github.com/lassik/emacs-language-id
-;; Package-Version: 20220409.2133
-;; Package-Commit: 9efb210e5f746dd83bb3f132b46fb0b1f035def4
+;; Package-Version: 20220411.1932
+;; Package-Commit: 5325af36d9cd726de47a698ac159fce59f3fd6d9
 ;; Version: 0.19
 ;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: languages util
@@ -150,6 +150,7 @@
     ("Elixir" elixir-mode)
     ("Elm" elm-mode)
     ("Emacs Lisp" emacs-lisp-mode)
+    ("Erlang" erlang-mode)
     ("F#" fsharp-mode)
     ("Fish" fish-mode)
     ("Fortran" fortran-mode)

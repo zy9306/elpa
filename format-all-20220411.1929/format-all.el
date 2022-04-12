@@ -2,8 +2,8 @@
 
 ;; Author: Lassi Kortela <lassi@lassi.io>
 ;; URL: https://github.com/lassik/emacs-format-all-the-code
-;; Package-Version: 20220409.2327
-;; Package-Commit: 36d47eb6db6f5ab1882fab8365fdae56fbada38a
+;; Package-Version: 20220411.1929
+;; Package-Commit: c9e2a7568f503b6edc4b9a32d6834a85c6034170
 ;; Version: 0.5.0
 ;; Package-Requires: ((emacs "24.4") (inheritenv "0.1") (language-id "0.19"))
 ;; Keywords: languages util
@@ -1261,6 +1261,7 @@ Consult the existing formatters for examples of BODY."
   (:executable "zig")
   (:install)
   (:languages "Zig")
+  (:features)
   (:format (format-all--buffer-easy executable "fmt" "--stdin")))
 
 (define-format-all-formatter zprint
