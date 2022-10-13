@@ -1,0 +1,2 @@
+;;; Generated package description from company-fuzzy.el  -*- no-byte-compile: t -*-
+(define-package "company-fuzzy" "20221012.801" "Fuzzy matching for `company-mode'" '((emacs "26.1") (company "0.8.12") (s "1.12.0") (ht "2.0")) :stars '("") :commit "f9af160cb2fc78719330318566f1fdc15be7bfc5" :authors '(("Shen, Jen-Chieh" . "jcs090218@gmail.com")) :maintainer '("Shen, Jen-Chieh" . "jcs090218@gmail.com") :keywords '("matching" "auto-complete" "complete" "fuzzy") :url "https://github.com/jcs-elpa/company-fuzzy")
