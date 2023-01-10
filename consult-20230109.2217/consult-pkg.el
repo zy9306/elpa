@@ -1,7 +1,7 @@
-(define-package "consult" "20230109.1641" "Consulting completing-read"
+(define-package "consult" "20230109.2217" "Consulting completing-read"
   '((emacs "27.1")
     (compat "29.1.1.0"))
-  :commit "83c007ac609cab2fe5179579f2c3ae3d4f0ed04d" :authors
+  :commit "3119f692ac018471961bf503deeeb17119f92347" :authors
   '(("Daniel Mendler and Consult contributors"))
   :maintainer
   '("Daniel Mendler" . "mail@daniel-mendler.de")
