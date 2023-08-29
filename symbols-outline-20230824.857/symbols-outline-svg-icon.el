@@ -108,23 +108,9 @@ If COLOR-NAME is unknown to Emacs, then return COLOR-NAME as-is."
             (symbols-outline-svg-icon--recursively-copy-children node1-child child fg-color)))))))
 
 (defvar symbols-outline-svg-icon-scale-alist
-  '(("tag" . 0.8)
-    ("key" . 0.8)
-    ("tools" . 0.85)
-    ("tex" . 1.2)
-    ("java" . 1.2)
-    ("database" . 0.9)
-    ("file-directory" . 1.05)
-    ("visualstudio" . 0.85)
-    ("wrench" . 0.85)
-    ("emacs" . 1.05)
-    ("file" . 1.1)
-    ("file-zip" . 1.05)
-    ("film" . 0.9)
-    ("symbol-parameter" . 1.15)
-    ("closed_caption" . 1.15)
-    ("variable-local" . 1.05)
-    ("repo" . 1.1)))
+  '(("tag" . 0.8))
+  "Alist that specifies the extra scaling factors for icons on top of base scale.
+Each element is in the form (ICON-NAME . SCALE-FACTOR).")
 
 (defvar symbols-outline-svg-icon-base-scale 1.0)
 
@@ -155,11 +141,12 @@ Icon is drawn with the foreground of FACE and scaled with SCALE."
 
   (let ((cache-item (apply #'symbols-outline-svg-icon-cache-get icon-name args)))
     (if cache-item
-        ;; (if nil
         cache-item
       (let* ((face (plist-get args :face))
              (scale (plist-get args :scale))
 
+             (icon-name (if (file-exists-p (symbols-outline-svg-icon-filepath icon-name))
+                            icon-name "tag"))
              (root (symbols-outline-svg-icon-parse icon-name))
 
              ;; Read original viewbox
@@ -222,7 +209,7 @@ Icon is drawn with the foreground of FACE and scaled with SCALE."
         ;; Insert all parsed nodes, replacing colors with fg-color
         (symbols-outline-svg-icon--recursively-copy-children svg (car root) fg-color)
 
-        (apply #'symbols-outline-svg-icon-cache-add (svg-image svg :ascent 'center :scale 1)
+        (apply #'symbols-outline-svg-icon-cache-add (svg-image svg :ascent 80 :scale 1)
                icon-name args)))))
 
 (defun symbols-outline-svg-icon-str (icon-name &rest args)

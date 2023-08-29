@@ -1,6 +1,6 @@
-(define-package "symbols-outline" "20230814.59" "Display symbols (functions, variables, etc) in outline view"
+(define-package "symbols-outline" "20230824.857" "Display symbols (functions, variables, etc) in outline view"
   '((emacs "27.1"))
-  :commit "8ac7c883a0128e2b4b34e6bca7699415d57b77c4" :authors
+  :commit "c5b077d79846bb7507ca5cb11795403a5eda71dd" :authors
   '(("Shihao Liu"))
   :maintainers
   '(("Shihao Liu"))

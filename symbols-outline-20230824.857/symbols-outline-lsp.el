@@ -62,21 +62,32 @@
 	(26 "typeparameter")
     (_ "misc")))
 
+;; For the compiler
+(defvar lsp-use-plists)
+
+(defun symbols-outline-lsp--get-item (name source)
+  "Get the item NAME from SOURCE."
+  (cond
+   ((hash-table-p source)
+    (gethash name source))
+   ((proper-list-p source)
+    (plist-get source (intern (concat ":" name)) #'equal))))
+
 (defun symbols-outline-lsp--convert-internal (ht-symbols tree)
   "Convert hashtable HT-SYMBOLS to the tree TREE."
   (mapc (lambda (symbol)
           (let ((node (make-symbols-outline-node
-                       :name (gethash "name" symbol)
+                       :name (symbols-outline-lsp--get-item "name" symbol)
                        :kind (symbols-outline-lsp--kind-name
-                              (gethash "kind" symbol))
+                              (symbols-outline-lsp--get-item "kind" symbol))
                        :line (thread-last symbol
-                                          (gethash "range")
-                                          (gethash "start")
-                                          (gethash "line")
+                                          (symbols-outline-lsp--get-item "range")
+                                          (symbols-outline-lsp--get-item "start")
+                                          (symbols-outline-lsp--get-item "line")
                                           (1+))
-                       :signature (gethash "detail" symbol)
+                       :signature (symbols-outline-lsp--get-item "detail" symbol)
                        :parent tree))
-                (ht-children (gethash "children" symbol)))
+                (ht-children (symbols-outline-lsp--get-item "children" symbol)))
             (push node (symbols-outline-node-children tree))
             (when (length> ht-children 0)
               (symbols-outline-lsp--convert-internal ht-children node))))
@@ -95,23 +106,43 @@
 (declare-function lsp-request-async "ext:lsp-mode")
 (declare-function lsp--text-document-identifier "ext:lsp-mode")
 (declare-function lsp-make-document-symbol-params "ext:lsp-protocol")
+(declare-function eglot-current-server "ext:eglot")
+(declare-function eglot--server-capable "ext:eglot")
+(declare-function jsonrpc-async-request "ext:jsonrpc")
+
+(defun symbols-outline-lsp--fetch-eglot (refresh-fn)
+  "Retrieve symbols with eglot."
+  (if-let ((server (eglot-current-server))
+           ((eglot--server-capable :documentSymbolProvider)))
+      (jsonrpc-async-request server :textDocument/documentSymbol
+                             `(:textDocument ,(eglot--TextDocumentIdentifier))
+                             :success-fn
+                             (lambda (resp)
+                               (thread-last resp
+                                            (symbols-outline-lsp--convert)
+                                            (funcall refresh-fn))))))
+
+(defun symbols-outline-lsp--fetch-lsp-mode (refresh-fn)
+  "Retrieve symbols with lsp-mode."
+  (when (lsp--find-workspaces-for "textDocument/documentSymbol")
+    (lsp-request-async "textDocument/documentSymbol"
+                       (lsp-make-document-symbol-params
+                        :text-document (lsp--text-document-identifier))
+                       (lambda (document-symbols)
+                         (thread-last document-symbols
+                                      (symbols-outline-lsp--convert)
+                                      (funcall refresh-fn)))
+                       :mode 'alive)))
 
 ;;;###autoload
 (defun symbols-outline-lsp-fetch (refresh-fn)
-  "Retrieve symbols via lsp-mode.
+  "Retrieve symbols via lsp-mode or eglot.
 Argument REFRESH-FN should be called upon the retrieved symbols tree."
-  (if (not (featurep 'lsp-mode))
-      (message "Cannot fetch symbols with lsp-mode because it's not installed.")
-    (require 'lsp-mode)
-    (when (lsp--find-workspaces-for "textDocument/documentSymbol")
-      (lsp-request-async "textDocument/documentSymbol"
-                         (lsp-make-document-symbol-params
-                          :text-document (lsp--text-document-identifier))
-                         (lambda (document-symbols)
-                           (thread-last document-symbols
-                                        (symbols-outline-lsp--convert)
-                                        (funcall refresh-fn)))
-                         :mode 'alive))))
+  (cond
+   ((bound-and-true-p eglot--managed-mode)
+    (symbols-outline-lsp--fetch-eglot refresh-fn))
+   ((bound-and-true-p lsp-managed-mode)
+    (symbols-outline-lsp--fetch-lsp-mode refresh-fn))))
 
 (provide 'symbols-outline-lsp)
 

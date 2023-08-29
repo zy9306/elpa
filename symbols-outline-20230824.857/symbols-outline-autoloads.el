@@ -65,7 +65,7 @@ it is disabled.
 ;;; Generated autoloads from symbols-outline-lsp.el
 
 (autoload 'symbols-outline-lsp-fetch "symbols-outline-lsp" "\
-Retrieve symbols via lsp-mode.
+Retrieve symbols via lsp-mode or eglot.
 Argument REFRESH-FN should be called upon the retrieved symbols tree.
 
 (fn REFRESH-FN)")
